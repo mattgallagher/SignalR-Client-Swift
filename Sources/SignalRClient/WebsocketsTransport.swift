@@ -29,11 +29,18 @@ public class WebsocketsTransport: NSObject, Transport, URLSessionWebSocketDelega
 
         var request = URLRequest(url: convertUrl(url: url))
         populateHeaders(headers: options.headers, request: &request)
-        setAccessToken(accessTokenProvider: options.accessTokenProvider, request: &request)
-        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
-        webSocketTask = urlSession!.webSocketTask(with: request)
-        
-        webSocketTask!.resume()
+
+        options.accessTokenProvider { result in
+            switch result {
+            case .failure(let error): self.handleError(error: error)
+            case .success(let token):
+                self.setAccessToken(accessToken: token, request: &request)
+                self.urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
+                self.webSocketTask = self.urlSession!.webSocketTask(with: request)
+
+                self.webSocketTask!.resume()
+            }
+        }
     }
 
     public func send(data: Data, sendDidComplete: @escaping (Error?) -> Void) {
@@ -163,8 +170,8 @@ public class WebsocketsTransport: NSObject, Transport, URLSessionWebSocketDelega
         }
     }
 
-    @inline(__always) private func setAccessToken(accessTokenProvider: () -> String?, request: inout URLRequest) {
-        if let accessToken = accessTokenProvider() {
+    @inline(__always) private func setAccessToken(accessToken: String?, request: inout URLRequest) {
+        if let accessToken = accessToken {
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }
     }

@@ -42,17 +42,22 @@ class DefaultHttpClient: HttpClientProtocol {
         urlRequest.httpMethod = method
         urlRequest.httpBody = body
         populateHeaders(headers: options.headers, request: &urlRequest)
-        setAccessToken(accessTokenProvider: options.accessTokenProvider, request: &urlRequest)
-        
-        session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
 
-            var resp:HttpResponse?
-            if error == nil {
-                resp = HttpResponse(statusCode: (response as! HTTPURLResponse).statusCode, contents: data)
+        options.accessTokenProvider { result in
+            switch result {
+            case .failure(let error): completionHandler(nil, error)
+            case .success(let token):
+                self.setAccessToken(accessToken: token, request: &urlRequest)
+                self.session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+                    var resp:HttpResponse?
+                    if error == nil {
+                        resp = HttpResponse(statusCode: (response as! HTTPURLResponse).statusCode, contents: data)
+                    }
+
+                    completionHandler(resp, error)
+                }).resume()
             }
-
-            completionHandler(resp, error)
-        }).resume()
+        }
     }
     
     @inline(__always) private func populateHeaders(headers: [String : String], request: inout URLRequest) {
@@ -61,8 +66,8 @@ class DefaultHttpClient: HttpClientProtocol {
         }
     }
 
-    @inline(__always) private func setAccessToken(accessTokenProvider: () -> String?, request: inout URLRequest) {
-        if let accessToken = accessTokenProvider() {
+    @inline(__always) private func setAccessToken(accessToken: String?, request: inout URLRequest) {
+        if let accessToken = accessToken {
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }
     }
