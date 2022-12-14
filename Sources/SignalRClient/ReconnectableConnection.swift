@@ -20,6 +20,8 @@ internal class ReconnectableConnection: Connection {
     private var failedAttemptsCount: Int = 0
     private var reconnectStartTime: Date = Date()
 
+    private let callbackQueue: DispatchQueue
+
     private enum State: String {
         case disconnected = "disconnected"
         case starting = "starting"
@@ -37,10 +39,11 @@ internal class ReconnectableConnection: Connection {
         return underlyingConnection.inherentKeepAlive
     }
 
-    init(connectionFactory: @escaping () -> Connection, reconnectPolicy: ReconnectPolicy, logger: Logger) {
+    init(connectionFactory: @escaping () -> Connection, reconnectPolicy: ReconnectPolicy, callbackQueue: DispatchQueue, logger: Logger) {
         self.connectionFactory = connectionFactory
         self.reconnectPolicy = reconnectPolicy
         self.logger = logger
+        self.callbackQueue = callbackQueue
         self.underlyingConnection = connectionFactory()
     }
 
@@ -58,7 +61,9 @@ internal class ReconnectableConnection: Connection {
         logger.log(logLevel: .info, message: "Received send request")
         guard state != .reconnecting else {
             // TODO: consider buffering
-            sendDidComplete(SignalRError.connectionIsReconnecting)
+            callbackQueue.async {
+                sendDidComplete(SignalRError.connectionIsReconnecting)
+            }
             return
         }
         underlyingConnection.send(data: data, sendDidComplete: sendDidComplete)
@@ -116,7 +121,7 @@ internal class ReconnectableConnection: Connection {
             if nextAttemptInterval != .never {
                 logger.log(logLevel: .debug, message: "Scheduling reconnect attempt at: \(nextAttemptInterval)")
                 // TODO: not great but running on the connectionQueue deadlocks
-                DispatchQueue.main.asyncAfter(deadline: .now() + nextAttemptInterval) {
+                callbackQueue.async {
                     self.startInternal()
                 }
                 // running on a random (possibly main) queue but HubConnection will
