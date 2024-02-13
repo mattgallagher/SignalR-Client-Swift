@@ -23,7 +23,7 @@ public class HttpConnectionOptions {
      - note: the factory will be called before each http request and will set the `Authorization` header value to: `Bearer {token-returned-by-factory}` unless
              the returned value is `nil` in which case the `Authorization` header will not be created
     */
-    public var accessTokenProvider: () -> String? = { return nil }
+    public var accessTokenProvider: (@escaping (Result<String?, Error>) -> Void) -> Void = { callback in callback(.success(nil)) }
 
     /**
      A factory for creating an HTTP client.
