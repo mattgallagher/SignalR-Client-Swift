@@ -41,7 +41,7 @@ public class WebsocketsTransport: NSObject, Transport, URLSessionWebSocketDelega
                 self.urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
                 self.webSocketTask = self.urlSession!.webSocketTask(with: request)
                 if let maximumWebsocketMessageSize = options.maximumWebsocketMessageSize {
-                    webSocketTask?.maximumMessageSize = maximumWebsocketMessageSize
+                    self.webSocketTask?.maximumMessageSize = maximumWebsocketMessageSize
                 }
 
                 self.webSocketTask!.resume()

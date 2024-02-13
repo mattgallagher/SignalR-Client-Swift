@@ -124,7 +124,7 @@ internal class ReconnectableConnection: Connection {
             if nextAttemptInterval != .never {
                 logger.log(logLevel: .debug, message: "Scheduling reconnect attempt at: \(nextAttemptInterval)")
                 // TODO: not great but running on the connectionQueue deadlocks
-                DispatchQueue.main.asyncAfter(deadline: .now() + nextAttemptInterval) {
+                callbackQueue.async {
                     self.startInternal()
                 }
                 // running on a random (possibly main) queue but HubConnection will
