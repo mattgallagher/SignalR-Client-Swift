@@ -70,7 +70,7 @@ public class HttpConnection: Connection {
 
         if options.skipNegotiation {
             transport = try! self.transportFactory.createTransport(availableTransports: [TransportDescription(transportType: TransportType.webSockets, transferFormats: [TransferFormat.text, TransferFormat.binary])])
-            startTransport(connectionId: nil)
+            startTransport(connectionId: nil, connectionToken: nil)
         } else {
             negotiate(negotiateUrl: createNegotiateUrl(), accessToken: nil) { negotiationResponse in
                 do {
@@ -81,7 +81,7 @@ public class HttpConnection: Connection {
                     return
                 }
 
-                self.startTransport(connectionId: negotiationResponse.connectionToken ?? negotiationResponse.connectionId)
+                self.startTransport(connectionId: negotiationResponse.connectionId, connectionToken: negotiationResponse.connectionToken)
             }
         }
     }
@@ -89,7 +89,7 @@ public class HttpConnection: Connection {
     private func negotiate(negotiateUrl: URL, accessToken: String?, negotiateDidComplete: @escaping (NegotiationResponse) -> Void) {
         if let accessToken = accessToken {
             logger.log(logLevel: .debug, message: "Overriding accessToken")
-            options.accessTokenProvider = { accessToken }
+            options.accessTokenProvider = { callback in callback(.success(accessToken)) }
         }
 
         let httpClient = options.httpClientFactory(options)
@@ -137,7 +137,7 @@ public class HttpConnection: Connection {
         }
     }
 
-    private func startTransport(connectionId: String?) {
+    private func startTransport(connectionId: String?, connectionToken: String?) {
         // connection is being stopped even though start has not finished yet
         if (self.state != .connecting) {
             self.logger.log(logLevel: .info, message: "Connection closed during negotiate")
@@ -145,7 +145,7 @@ public class HttpConnection: Connection {
             return
         }
 
-        let startUrl = self.createStartUrl(connectionId: connectionId)
+        let startUrl = self.createStartUrl(connectionId: connectionToken ?? connectionId)
         self.transportDelegate = ConnectionTransportDelegate(connection: self, connectionId: connectionId)
         self.transport!.delegate = self.transportDelegate
         self.transport!.start(url: startUrl, options: self.options)
