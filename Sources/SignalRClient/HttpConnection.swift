@@ -100,7 +100,7 @@ public class HttpConnection: Connection {
     ) {
         if let accessToken = accessToken {
             logger.log(logLevel: .debug, message: "Overriding accessToken")
-            options.accessTokenProvider = { accessToken }
+            options.accessTokenProvider = { callback in callback(.success(accessToken)) }
         }
 
         let httpClient = options.httpClientFactory(options)
