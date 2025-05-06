@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension HubConnection {
+extension HubConnection {
     /**
      Invokes a server side hub method with no parameters that does not return a result.
 
@@ -20,7 +20,7 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke(method: String, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
+    public func invoke(method: String, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
         self.invoke(method: method, arguments: [], invocationDidComplete: invocationDidComplete)
     }
 
@@ -37,7 +37,9 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable>(method: String, _ arg1: T1, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
+    public func invoke(
+        method: String, _ arg1: Encodable, invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
         self.invoke(method: method, arguments: [arg1], invocationDidComplete: invocationDidComplete)
     }
 
@@ -55,7 +57,9 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable>(method: String, _ arg1: T1, _ arg2: T2, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
         self.invoke(method: method, arguments: [arg1, arg2], invocationDidComplete: invocationDidComplete)
     }
 
@@ -74,7 +78,10 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
         self.invoke(method: method, arguments: [arg1, arg2, arg3], invocationDidComplete: invocationDidComplete)
     }
 
@@ -94,7 +101,10 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
         self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4], invocationDidComplete: invocationDidComplete)
     }
 
@@ -115,8 +125,12 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4, arg5], invocationDidComplete: invocationDidComplete)
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5], invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -137,8 +151,14 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6], invocationDidComplete: invocationDidComplete)
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6],
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -160,8 +180,14 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, T7: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7], invocationDidComplete: invocationDidComplete)
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable, _ arg7: Encodable,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7],
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -184,8 +210,140 @@ public extension HubConnection {
      - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, T7: Encodable, T8: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, _ arg8: T8, invocationDidComplete: @escaping (_ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8], invocationDidComplete: invocationDidComplete)
+    public func invoke
+
+        (
+            method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable,
+            _ arg5: Encodable, _ arg6: Encodable, _ arg7: Encodable, _ arg8: Encodable,
+            invocationDidComplete: @escaping (_ error: Error?) -> Void
+        )
+    {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8],
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a void server side hub method with a client stream and no parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke(
+        method: String, clientStream: AsyncStream<Encodable>, invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [], clientStreams: [clientStream], invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a void server side hub method with a client stream and one parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke(
+        method: String, _ arg1: Encodable, clientStream: AsyncStream<Encodable>,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1], clientStreams: [clientStream],
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a void server side hub method with a client stream and two parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, clientStream: AsyncStream<Encodable>,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2], clientStreams: [clientStream],
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a void server side hub method with a client stream and three parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter arg3: third argument of the hub method
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, clientStream: AsyncStream<Encodable>,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3], clientStreams: [clientStream],
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a void server side hub method with a client stream and four parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter arg3: third argument of the hub method
+     - parameter arg4: fourth argument of the hub method
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable,
+        clientStream: AsyncStream<Encodable>, invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4], clientStreams: [clientStream],
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -202,7 +360,10 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<TRes: Decodable>(method: String, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
+    public func invoke<TRes: Decodable>(
+        method: String, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
         self.invoke(method: method, arguments: [], resultType: resultType, invocationDidComplete: invocationDidComplete)
     }
 
@@ -221,8 +382,12 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, TRes: Decodable>(method: String, _ arg1: T1, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1], resultType: resultType, invocationDidComplete: invocationDidComplete)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1], resultType: resultType, invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -241,8 +406,13 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, TRes: Decodable>(method: String, _ arg1: T1, _ arg2: T2, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2], resultType: resultType, invocationDidComplete: invocationDidComplete)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -262,8 +432,13 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, TRes: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3], resultType: resultType, invocationDidComplete: invocationDidComplete)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -284,8 +459,14 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, TRes: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4], resultType: resultType, invocationDidComplete: invocationDidComplete)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable,
+        resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -307,8 +488,14 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, TRes: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4, arg5], resultType: resultType, invocationDidComplete: invocationDidComplete)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -331,8 +518,14 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, TRes: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6], resultType: resultType, invocationDidComplete: invocationDidComplete)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -356,8 +549,14 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, T7: Encodable, TRes: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7], resultType: resultType, invocationDidComplete: invocationDidComplete)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable, _ arg7: Encodable,
+        resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -382,8 +581,153 @@ public extension HubConnection {
      - parameter result: the result returned by the hub method
      - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
      */
-    func invoke<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, T7: Encodable, T8: Encodable, TRes: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, _ arg8: T8, resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void) {
-        self.invoke(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8], resultType: resultType, invocationDidComplete: invocationDidComplete)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable, _ arg7: Encodable, _ arg8: Encodable,
+        resultType: TRes.Type, invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a non-void server side hub method with a client stream and no parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter resultType: the type of the result returned by the hub method
+     - parameter result: the result returned by the hub method
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke<TRes: Decodable>(
+        method: String, clientStream: AsyncStream<Encodable>, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [], clientStreams: [clientStream], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a non-void server side hub method with a client stream and one parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter resultType: the type of the result returned by the hub method
+     - parameter result: the result returned by the hub method
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable,
+        clientStream: AsyncStream<Encodable>, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1], clientStreams: [clientStream], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a non-void server side hub method with a client stream and two parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter resultType: the type of the result returned by the hub method
+     - parameter result: the result returned by the hub method
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable,
+        clientStream: AsyncStream<Encodable>, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2], clientStreams: [clientStream], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a non-void server side hub method with a client stream and three parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter arg3: third argument of the hub method
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter resultType: the type of the result returned by the hub method
+     - parameter result: the result returned by the hub method
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable,
+        clientStream: AsyncStream<Encodable>, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3], clientStreams: [clientStream], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a non-void server side hub method with a client stream and four parameters.
+
+     The `invoke` method invokes a server side hub method and returns the status of the invocation. The `error` parameter of the `invocationDidComplete`
+     callback will be `nil` if the invocation was successful. Otherwise it will contain failure details. Note that the failure can be local - e.g. the
+     invocation was not initiated successfully (for example the connection was not connected when invoking the method), or remote - e.g. the hub method on the
+     server side threw an exception.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter arg3: third argument of the hub method
+     - parameter arg4: fourth argument of the hub methodˆ
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter resultType: the type of the result returned by the hub method
+     - parameter result: the result returned by the hub method
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func invoke<TRes: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable,
+        clientStream: AsyncStream<Encodable>, resultType: TRes.Type,
+        invocationDidComplete: @escaping (_ result: TRes?, _ error: Error?) -> Void
+    ) {
+        self.invoke(
+            method: method, arguments: [arg1, arg2, arg3, arg4], clientStreams: [clientStream], resultType: resultType,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -396,7 +740,7 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send(method: String, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
+    public func send(method: String, sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }) {
         self.send(method: method, arguments: [], sendDidComplete: sendDidComplete)
     }
 
@@ -411,7 +755,9 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send<T1: Encodable>(method: String, _ arg1: T1, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
+    public func send(
+        method: String, _ arg1: Encodable, sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }
+    ) {
         self.send(method: method, arguments: [arg1], sendDidComplete: sendDidComplete)
     }
 
@@ -427,7 +773,10 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send<T1: Encodable, T2: Encodable>(method: String, _ arg1: T1, _ arg2: T2, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
+    public func send(
+        method: String, _ arg1: Encodable, _ arg2: Encodable,
+        sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }
+    ) {
         self.send(method: method, arguments: [arg1, arg2], sendDidComplete: sendDidComplete)
     }
 
@@ -444,7 +793,10 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send<T1: Encodable, T2: Encodable, T3: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
+    public func send(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable,
+        sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }
+    ) {
         self.send(method: method, arguments: [arg1, arg2, arg3], sendDidComplete: sendDidComplete)
     }
 
@@ -462,7 +814,10 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
+    public func send(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable,
+        sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }
+    ) {
         self.send(method: method, arguments: [arg1, arg2, arg3, arg4], sendDidComplete: sendDidComplete)
     }
 
@@ -481,7 +836,10 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
+    public func send(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }
+    ) {
         self.send(method: method, arguments: [arg1, arg2, arg3, arg4, arg5], sendDidComplete: sendDidComplete)
     }
 
@@ -501,7 +859,11 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
+    public func send(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable,
+        sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }
+    ) {
         self.send(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6], sendDidComplete: sendDidComplete)
     }
 
@@ -522,8 +884,13 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, T7: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
-        self.send(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7], sendDidComplete: sendDidComplete)
+    public func send(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable, _ arg7: Encodable,
+        sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }
+    ) {
+        self.send(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7], sendDidComplete: sendDidComplete)
     }
 
     /**
@@ -544,8 +911,14 @@ public extension HubConnection {
                                   invocation was successfully initiated the `error` will be `nil`. Otherwise the `error` will contain failure details
      - parameter error: contains failure details if the invocation was not initiated successfully. `nil` otherwise
      */
-    func send<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, T7: Encodable, T8: Encodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, _ arg8: T8, sendDidComplete: @escaping (_ error: Error?) -> Void = {_ in}) {
-        self.send(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8], sendDidComplete: sendDidComplete)
+    public func send(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable, _ arg7: Encodable, _ arg8: Encodable,
+        sendDidComplete: @escaping (_ error: Error?) -> Void = { _ in }
+    ) {
+        self.send(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8],
+            sendDidComplete: sendDidComplete)
     }
 
     /**
@@ -554,7 +927,7 @@ public extension HubConnection {
      - parameter method: the name of the client side method to register the callback for
      - parameter callback: a callback that will be called when the client side method is invoked from the server
      */
-    func on(method: String, callback: @escaping () -> Void) {
+    public func on(method: String, callback: @escaping () -> Void) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             callback()
         }
@@ -575,7 +948,7 @@ public extension HubConnection {
      }
      ```
      */
-    func on<T1: Decodable>(method: String, callback: @escaping (_ arg1: T1) -> Void) {
+    public func on<T1: Decodable>(method: String, callback: @escaping (_ arg1: T1) -> Void) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             let arg1 = try argumentExtractor.getArgument(type: T1.self)
             callback(arg1)
@@ -598,7 +971,7 @@ public extension HubConnection {
      }
      ```
      */
-    func on<T1: Decodable, T2: Decodable>(method: String, callback: @escaping (_ arg1: T1, _ arg2: T2) -> Void) {
+    public func on<T1: Decodable, T2: Decodable>(method: String, callback: @escaping (_ arg1: T1, _ arg2: T2) -> Void) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             let arg1 = try argumentExtractor.getArgument(type: T1.self)
             let arg2 = try argumentExtractor.getArgument(type: T2.self)
@@ -623,7 +996,9 @@ public extension HubConnection {
      }
      ```
      */
-    func on<T1: Decodable, T2: Decodable, T3: Decodable>(method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3) -> Void) {
+    public func on<T1: Decodable, T2: Decodable, T3: Decodable>(
+        method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3) -> Void
+    ) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             let arg1 = try argumentExtractor.getArgument(type: T1.self)
             let arg2 = try argumentExtractor.getArgument(type: T2.self)
@@ -650,7 +1025,9 @@ public extension HubConnection {
      }
      ```
      */
-    func on<T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable>(method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4) -> Void) {
+    public func on<T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable>(
+        method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4) -> Void
+    ) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             let arg1 = try argumentExtractor.getArgument(type: T1.self)
             let arg2 = try argumentExtractor.getArgument(type: T2.self)
@@ -679,7 +1056,9 @@ public extension HubConnection {
      }
      ```
      */
-    func on<T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable, T5: Decodable>(method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5) -> Void) {
+    public func on<T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable, T5: Decodable>(
+        method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5) -> Void
+    ) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             let arg1 = try argumentExtractor.getArgument(type: T1.self)
             let arg2 = try argumentExtractor.getArgument(type: T2.self)
@@ -711,7 +1090,10 @@ public extension HubConnection {
      }
      ```
      */
-    func on<T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable, T5: Decodable, T6: Decodable>(method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6) -> Void) {
+    public func on<T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable, T5: Decodable, T6: Decodable>(
+        method: String,
+        callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6) -> Void
+    ) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             let arg1 = try argumentExtractor.getArgument(type: T1.self)
             let arg2 = try argumentExtractor.getArgument(type: T2.self)
@@ -745,7 +1127,12 @@ public extension HubConnection {
      }
      ```
      */
-    func on<T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable, T5: Decodable, T6: Decodable, T7: Decodable>(method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7) -> Void) {
+    public func on<
+        T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable, T5: Decodable, T6: Decodable, T7: Decodable
+    >(
+        method: String,
+        callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7) -> Void
+    ) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             let arg1 = try argumentExtractor.getArgument(type: T1.self)
             let arg2 = try argumentExtractor.getArgument(type: T2.self)
@@ -781,7 +1168,15 @@ public extension HubConnection {
      }
      ```
      */
-    func on<T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable, T5: Decodable, T6: Decodable, T7: Decodable, T8: Decodable>(method: String, callback: @escaping (_ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, _ arg8: T8) -> Void) {
+    public func on<
+        T1: Decodable, T2: Decodable, T3: Decodable, T4: Decodable, T5: Decodable, T6: Decodable, T7: Decodable,
+        T8: Decodable
+    >(
+        method: String,
+        callback: @escaping (
+            _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, _ arg8: T8
+        ) -> Void
+    ) {
         let cb: (ArgumentExtractor) throws -> Void = { argumentExtractor in
             let arg1 = try argumentExtractor.getArgument(type: T1.self)
             let arg2 = try argumentExtractor.getArgument(type: T2.self)
@@ -817,8 +1212,13 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<TItemType: Decodable>(method: String, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<TItemType: Decodable>(
+        method: String, streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -842,8 +1242,13 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<T1: Encodable, TItemType: Decodable>(method: String, _ arg1: T1, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [arg1], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -868,8 +1273,13 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<T1: Encodable, T2: Encodable, TItemType: Decodable>(method: String, _ arg1: T1, _ arg2: T2, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [arg1, arg2], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -895,8 +1305,14 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<T1: Encodable, T2: Encodable, T3: Encodable, TItemType: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [arg1, arg2, arg3], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2, arg3], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -923,8 +1339,14 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, TItemType: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [arg1, arg2, arg3, arg4], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2, arg3, arg4], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -952,8 +1374,14 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, TItemType: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [arg1, arg2, arg3, arg4, arg5], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -982,8 +1410,17 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, TItemType: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<
+        TItemType: Decodable
+    >(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -1013,8 +1450,15 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, T7: Encodable, TItemType: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable, _ arg7: Encodable,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7],
+            streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
     }
 
     /**
@@ -1045,7 +1489,192 @@ public extension HubConnection {
      hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
      ```
      */
-    func stream<T1: Encodable, T2: Encodable, T3: Encodable, T4: Encodable, T5: Encodable, T6: Encodable, T7: Encodable, T8: Encodable, TItemType: Decodable>(method: String, _ arg1: T1, _ arg2: T2, _ arg3: T3, _ arg4: T4, _ arg5: T5, _ arg6: T6, _ arg7: T7, _ arg8: T8, streamItemReceived: @escaping (_ item: TItemType) -> Void, invocationDidComplete: @escaping (_ error: Error?) -> Void) -> StreamHandle {
-        return self.stream(method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8], streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable, _ arg5: Encodable,
+        _ arg6: Encodable, _ arg7: Encodable, _ arg8: Encodable,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8],
+            streamItemReceived: streamItemReceived, invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a streaming server side hub method with a client stream and no parameters. It can be used for bidirectional streaming.
+
+     The `stream` method invokes a streaming server side hub method. It takes two callbacks
+     - `streamItemReceived` - invoked each time a stream item is received
+     - `invocationDidComplete` - invoked when the invocation of the streaming method has completed. The server side method completes after
+                                the client stream completes. If the streaming method completed successfully or was cancelled the callback
+                                will be called with `nil` error. Otherwise the `error` parameter of the `invocationDidComplete` callback
+                                will contain failure details. Note that the failure can be local - e.g. the invocation was not initiated successfully (for
+                                example the connection was not started when invoking the method), or remote - e.g. the hub method threw an error.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter streamItemReceived: a handler that will be invoked each time a stream item is received
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     - returns: a `StreamHandle` that can be used to cancel the hub method associated with this invocation
+     - note: the `streamItemReceived` parameter may need to be typed if the type cannot be inferred e.g.:
+     ```
+     hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
+     ```
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func stream<TItemType: Decodable>(
+        method: String, clientStream: AsyncStream<Encodable>, streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [], clientStreams: [clientStream], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a streaming server side hub method with a client stream and no parameters. It can be used for bidirectional streaming.
+
+     The `stream` method invokes a streaming server side hub method. It takes two callbacks
+     - `streamItemReceived` - invoked each time a stream item is received
+     - `invocationDidComplete` - invoked when the invocation of the streaming method has completed. The server side method completes after
+                                the client stream completes. If the streaming method completed successfully or was cancelled the callback
+                                will be called with `nil` error. Otherwise the `error` parameter of the `invocationDidComplete` callback
+                                will contain failure details. Note that the failure can be local - e.g. the invocation was not initiated successfully (for
+                                example the connection was not started when invoking the method), or remote - e.g. the hub method threw an error.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter streamItemReceived: a handler that will be invoked each time a stream item is received
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     - returns: a `StreamHandle` that can be used to cancel the hub method associated with this invocation
+     - note: the `streamItemReceived` parameter may need to be typed if the type cannot be inferred e.g.:
+     ```
+     hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
+     ```
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, clientStream: AsyncStream<Encodable>,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1], clientStreams: [clientStream], streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a streaming server side hub method with a client stream and no parameters. It can be used for bidirectional streaming.
+
+     The `stream` method invokes a streaming server side hub method. It takes two callbacks
+     - `streamItemReceived` - invoked each time a stream item is received
+     - `invocationDidComplete` - invoked when the invocation of the streaming method has completed. The server side method completes after
+                                the client stream completes. If the streaming method completed successfully or was cancelled the callback
+                                will be called with `nil` error. Otherwise the `error` parameter of the `invocationDidComplete` callback
+                                will contain failure details. Note that the failure can be local - e.g. the invocation was not initiated successfully (for
+                                example the connection was not started when invoking the method), or remote - e.g. the hub method threw an error.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter streamItemReceived: a handler that will be invoked each time a stream item is received
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     - returns: a `StreamHandle` that can be used to cancel the hub method associated with this invocation
+     - note: the `streamItemReceived` parameter may need to be typed if the type cannot be inferred e.g.:
+     ```
+     hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
+     ```
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, clientStream: AsyncStream<Encodable>,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2], clientStreams: [clientStream],
+            streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a streaming server side hub method with a client stream and no parameters. It can be used for bidirectional streaming.
+
+     The `stream` method invokes a streaming server side hub method. It takes two callbacks
+     - `streamItemReceived` - invoked each time a stream item is received
+     - `invocationDidComplete` - invoked when the invocation of the streaming method has completed. The server side method completes after
+                                the client stream completes. If the streaming method completed successfully or was cancelled the callback
+                                will be called with `nil` error. Otherwise the `error` parameter of the `invocationDidComplete` callback
+                                will contain failure details. Note that the failure can be local - e.g. the invocation was not initiated successfully (for
+                                example the connection was not started when invoking the method), or remote - e.g. the hub method threw an error.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter arg3: third argument of the hub method
+     - parameter streamItemReceived: a handler that will be invoked each time a stream item is received
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     - returns: a `StreamHandle` that can be used to cancel the hub method associated with this invocation
+     - note: the `streamItemReceived` parameter may need to be typed if the type cannot be inferred e.g.:
+     ```
+     hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
+     ```
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, clientStream: AsyncStream<Encodable>,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2, arg3], clientStreams: [clientStream],
+            streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
+    }
+
+    /**
+     Invokes a streaming server side hub method with a client stream and no parameters. It can be used for bidirectional streaming.
+
+     The `stream` method invokes a streaming server side hub method. It takes two callbacks
+     - `streamItemReceived` - invoked each time a stream item is received
+     - `invocationDidComplete` - invoked when the invocation of the streaming method has completed. The server side method completes after
+                                the client stream completes. If the streaming method completed successfully or was cancelled the callback
+                                will be called with `nil` error. Otherwise the `error` parameter of the `invocationDidComplete` callback
+                                will contain failure details. Note that the failure can be local - e.g. the invocation was not initiated successfully (for
+                                example the connection was not started when invoking the method), or remote - e.g. the hub method threw an error.
+
+     - parameter method: the name of the server side hub method to invoke
+     - parameter arg1: first argument of the hub method
+     - parameter arg2: second argument of the hub method
+     - parameter arg3: third argument of the hub method
+     - parameter arg4: fourth argument of the hub method
+     - parameter streamItemReceived: a handler that will be invoked each time a stream item is received
+     - parameter clientStream: client stream producing items to be sent to the server
+     - parameter invocationDidComplete: a completion handler that will be invoked when the invocation has completed
+     - parameter error: contains failure details if the invocation was not initiated successfully or the hub method threw an exception. `nil` otherwise
+     - returns: a `StreamHandle` that can be used to cancel the hub method associated with this invocation
+     - note: the `streamItemReceived` parameter may need to be typed if the type cannot be inferred e.g.:
+     ```
+     hubConnection.stream(method: "StreamNumbers", 10, 1, streamItemReceived: { (item: Int) in print("\(item)" }) { error in print("\(error)") }
+     ```
+     */
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func stream<TItemType: Decodable>(
+        method: String, _ arg1: Encodable, _ arg2: Encodable, _ arg3: Encodable, _ arg4: Encodable,
+        clientStream: AsyncStream<Encodable>,
+        streamItemReceived: @escaping (_ item: TItemType) -> Void,
+        invocationDidComplete: @escaping (_ error: Error?) -> Void
+    ) -> StreamHandle {
+        return self.stream(
+            method: method, arguments: [arg1, arg2, arg3, arg4], clientStreams: [clientStream],
+            streamItemReceived: streamItemReceived,
+            invocationDidComplete: invocationDidComplete)
     }
 }

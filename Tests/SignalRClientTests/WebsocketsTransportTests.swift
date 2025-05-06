@@ -7,8 +7,10 @@
 //
 
 import XCTest
+
 @testable import SignalRClient
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 class WebsocketsTransportTests: XCTestCase {
 
     func testThatWebsocketsTransportCanSendAndReceiveMessage() {
@@ -42,7 +44,7 @@ class WebsocketsTransportTests: XCTestCase {
 
         wsTransport.delegate = transportDelegate
         wsTransport.start(url: ECHO_WEBSOCKETS_URL, options: HttpConnectionOptions())
-        
+
         waitForExpectations(timeout: 5 /*seconds*/)
     }
 

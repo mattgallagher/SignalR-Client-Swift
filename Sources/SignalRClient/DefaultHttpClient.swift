@@ -23,36 +23,46 @@ class DefaultHttpClient: HttpClientProtocol {
             delegateQueue: nil
         )
     }
-    
+
+    deinit {
+        session.finishTasksAndInvalidate()
+    }
+
     func get(url: URL, completionHandler: @escaping (HttpResponse?, Error?) -> Void) {
-        sendHttpRequest(url:url, method: "GET", body: nil, completionHandler: completionHandler)
+        sendHttpRequest(url: url, method: "GET", body: nil, completionHandler: completionHandler)
     }
 
     func post(url: URL, body: Data?, completionHandler: @escaping (HttpResponse?, Error?) -> Void) {
-        sendHttpRequest(url:url, method: "POST", body: body, completionHandler: completionHandler)
+        sendHttpRequest(url: url, method: "POST", body: body, completionHandler: completionHandler)
     }
-    
-    func delete(url: URL, completionHandler: @escaping (HttpResponse?, Error?) -> Void) {
-        sendHttpRequest(url:url, method: "DELETE", body: nil, completionHandler: completionHandler)
-    }
-    
 
-    func sendHttpRequest(url: URL, method: String, body: Data?, completionHandler: @escaping (HttpResponse?, Error?) -> Swift.Void) {
+    func delete(url: URL, completionHandler: @escaping (HttpResponse?, Error?) -> Void) {
+        sendHttpRequest(url: url, method: "DELETE", body: nil, completionHandler: completionHandler)
+    }
+
+    func sendHttpRequest(
+        url: URL, method: String, body: Data?, completionHandler: @escaping (HttpResponse?, Error?) -> Swift.Void
+    ) {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
         urlRequest.httpBody = body
         populateHeaders(headers: options.headers, request: &urlRequest)
-        setAccessToken(accessTokenProvider: options.accessTokenProvider, request: &urlRequest)
-        
-        session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
 
-            var resp:HttpResponse?
-            if error == nil {
-                resp = HttpResponse(statusCode: (response as! HTTPURLResponse).statusCode, contents: data)
+        options.accessTokenProvider { result in
+            switch result {
+            case .failure(let error): completionHandler(nil, error)
+            case .success(let token):
+                self.setAccessToken(accessToken: token, request: &urlRequest)
+                self.session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+                    var resp:HttpResponse?
+                    if error == nil {
+                        resp = HttpResponse(statusCode: (response as! HTTPURLResponse).statusCode, contents: data)
+                    }
+
+                    completionHandler(resp, error)
+                }).resume()
             }
-
-            completionHandler(resp, error)
-        }).resume()
+        }
     }
     
     @inline(__always) private func populateHeaders(headers: [String : String], request: inout URLRequest) {
@@ -61,20 +71,28 @@ class DefaultHttpClient: HttpClientProtocol {
         }
     }
 
-    @inline(__always) private func setAccessToken(accessTokenProvider: () -> String?, request: inout URLRequest) {
-        if let accessToken = accessTokenProvider() {
+    @inline(__always) private func setAccessToken(accessToken: String?, request: inout URLRequest) {
+        if let accessToken = accessToken {
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }
     }
 }
 
-fileprivate class DefaultHttpClientSessionDelegate: NSObject, URLSessionDelegate {
-    
+private class DefaultHttpClientSessionDelegate: NSObject, URLSessionDelegate {
     static var shared = DefaultHttpClientSessionDelegate()
-    
-    var authenticationChallengeHandler: ((_ session: URLSession, _ challenge: URLAuthenticationChallenge, _ completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)?
-    
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+
+    var authenticationChallengeHandler:
+        (
+            (
+                _ session: URLSession, _ challenge: URLAuthenticationChallenge,
+                _ completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+            ) -> Void
+        )?
+
+    func urlSession(
+        _ session: URLSession, didReceive challenge: URLAuthenticationChallenge,
+        completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+    ) {
         if let challengeHandler = authenticationChallengeHandler {
             challengeHandler(session, challenge, completionHandler)
         } else {

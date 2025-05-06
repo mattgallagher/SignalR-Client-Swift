@@ -4,6 +4,10 @@ A Swift SignalR Client for the Asp.Net Core version of SignalR
 
 **Before filing an issue please check [Frequently Asked Questions](https://github.com/moozzyk/SignalR-Client-Swift/wiki/Frequently-Asked-Questions)**
 
+## NEW - [Swift SignalR Client Course](https://www.udemy.com/course/build-real-time-ios-apps-with-asp-net-core-signalr)
+
+Everything you need to know about using the Swift SignalR Client [in under 60 minutes](https://www.udemy.com/course/build-real-time-ios-apps-with-asp-net-core-signalr)
+
 ## Installation
 
 ### Cocoapods
@@ -22,10 +26,12 @@ pod install
 
 ### Swift Package Manager
 
-Add the following to your `Package` dependencies:
+The easiest way to is to use Use XCode UI (`File -> Add Packages...`) 
+
+Alternatively, add the following to your `Package` dependencies:
 
 ```swift
-.package(url: "https://github.com/moozzyk/SignalR-Client-Swift", .upToNextMinor(from: "0.6.0")),
+.package(url: "https://github.com/moozzyk/SignalR-Client-Swift", .upToNextMinor(from: "0.9.0")),
 ```
 
 Then include `"SignalRClient"` in your target dependencies. For example:
@@ -79,7 +85,8 @@ public class SignalRService {
 }
 ```
 
-More detailed user's guide:
+More detailed user's guides:
+ - [Swift SignalR Client Course](https://www.udemy.com/course/build-real-time-ios-apps-with-asp-net-core-signalr) - the most complete and up-to-date information on using the Swift SignalR Client
  - [Swift Client for the ASP.Net Core Version of SignalR – Part 1: Getting Started](https://blog.3d-logic.com/2019/07/28/swift-client-for-the-asp-net-core-version-of-signalr-part-1-getting-started/)
  - [Swift Client for the ASP.Net Core Version of SignalR – Part 1: Beyond the Basics](https://blog.3d-logic.com/2019/08/01/swift-client-for-the-asp-net-core-version-of-signalr-part-2-beyond-the-basics/)
  - [Automatic Reconnection in the Swift SignalR Client](https://blog.3d-logic.com/2020/06/28/automatic-reconnection-in-the-swift-signalr-client/)
@@ -108,11 +115,6 @@ There are several sample projects in the `Examples` folder. They include:
     When running the `TestServer` project on macOS Monterey (12.0 or greater), you may encounter the error: 
     **"Failed to bind to address http://0.0.0.0:5000: address already in use."**. This is due to Apple now advertising an 'AirPlay Receiver' on that port.
     This port can be freed by disabling the receiver: Navigate to _System Preferences > Sharing_ and uncheck _AirPlay Receiver_.
-
-## Disclaimer
-
-I am providing code in the repository to you under an open source license. Because this is my personal repository, the license you receive to my code is from me 
-and not my employer (Facebook)
 
 ## Hits
 [![HitCount](http://hits.dwyl.com/moozzyk/Signalr-Client-Swift.svg)](http://hits.dwyl.com/moozzyk/Signalr-Client-Swift)

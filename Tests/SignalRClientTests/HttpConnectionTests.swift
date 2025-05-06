@@ -7,6 +7,7 @@
 //
 
 import XCTest
+
 @testable import SignalRClient
 
 class HttpConnectionTests: XCTestCase {
@@ -46,6 +47,7 @@ class HttpConnectionTests: XCTestCase {
     }
 
     /// Only expected to pass if the server ONLY supports WebSockets.
+    @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func testThatConnectionCanSendReceiveMessagesWithSkipNegotiation() {
         let didOpenExpectation = expectation(description: "connection opened")
         let didReceiveMessageExpectation = expectation(description: "message received")
@@ -162,12 +164,12 @@ class HttpConnectionTests: XCTestCase {
         let connection = HttpConnection(url: URL(string: "\(BASE_URL)/throw")!)
         let connectionDelegate = TestConnectionDelegate()
         connectionDelegate.connectionDidFailToOpenHandler = { error in
-                connection.send(data: "".data(using: .utf8)!) { sendError in
-                    XCTAssertNotNil(sendError)
-                    XCTAssertEqual(String(describing: sendError!), String(describing: SignalRError.invalidState))
-                    sendFailedExpectation.fulfill()
-                }
+            connection.send(data: "".data(using: .utf8)!) { sendError in
+                XCTAssertNotNil(sendError)
+                XCTAssertEqual(String(describing: sendError!), String(describing: SignalRError.invalidState))
+                sendFailedExpectation.fulfill()
             }
+        }
 
         connection.delegate = connectionDelegate
         connection.start()
@@ -180,7 +182,9 @@ class HttpConnectionTests: XCTestCase {
 
         let testTransport = TestTransport()
         let transportFactory = TestTransportFactory(testTransport)
-        let connection = HttpConnection(url: TARGET_ECHO_URL, options: HttpConnectionOptions(), transportFactory: transportFactory, logger: PrintLogger())
+        let connection = HttpConnection(
+            url: TARGET_ECHO_URL, options: HttpConnectionOptions(), transportFactory: transportFactory,
+            logger: PrintLogger())
         let connectionDelegate = TestConnectionDelegate()
 
         connectionDelegate.connectionDidOpenHandler = { connection in
@@ -367,7 +371,7 @@ class HttpConnectionTests: XCTestCase {
         let httpClient = TestHttpClient(postHandler: { _ in (nil, startError) })
         let httpConnectionOptions = HttpConnectionOptions()
         httpConnectionOptions.httpClientFactory = { options in httpClient }
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org")!, options: httpConnectionOptions)
+        let httpConnection = HttpConnection(url: URL(string: "http://fakeuri.org")!, options: httpConnectionOptions)
         let connectionDelegate = TestConnectionDelegate()
         connectionDelegate.connectionDidFailToOpenHandler = { error in
             XCTAssertEqual("\(startError)", "\(error)")
@@ -386,10 +390,12 @@ class HttpConnectionTests: XCTestCase {
         let httpClient = TestHttpClient(postHandler: { _ in (nil, nil) })
         let httpConnectionOptions = HttpConnectionOptions()
         httpConnectionOptions.httpClientFactory = { options in httpClient }
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org")!, options: httpConnectionOptions)
+        let httpConnection = HttpConnection(url: URL(string: "http://fakeuri.org")!, options: httpConnectionOptions)
         let connectionDelegate = TestConnectionDelegate()
         connectionDelegate.connectionDidFailToOpenHandler = { error in
-            XCTAssertEqual("\(SignalRError.invalidNegotiationResponse(message: "negotiate returned nil httpResponse."))", "\(error)")
+            XCTAssertEqual(
+                "\(SignalRError.invalidNegotiationResponse(message: "negotiate returned nil httpResponse."))",
+                "\(error)")
             didFailToOpenExpectation.fulfill()
         }
         httpConnection.delegate = connectionDelegate
@@ -405,7 +411,7 @@ class HttpConnectionTests: XCTestCase {
         let httpClient = TestHttpClient(postHandler: { _ in (HttpResponse(statusCode: 500, contents: nil), nil) })
         let httpConnectionOptions = HttpConnectionOptions()
         httpConnectionOptions.httpClientFactory = { options in httpClient }
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org")!, options: httpConnectionOptions)
+        let httpConnection = HttpConnection(url: URL(string: "http://fakeuri.org")!, options: httpConnectionOptions)
         let connectionDelegate = TestConnectionDelegate()
         connectionDelegate.connectionDidFailToOpenHandler = { error in
             XCTAssertEqual("\(SignalRError.webError(statusCode: 500))", "\(error)")
@@ -421,13 +427,18 @@ class HttpConnectionTests: XCTestCase {
     func testThatConnectionFailsToOpenIfNegotiateResponseNotValid() {
         let didFailToOpenExpectation = expectation(description: "connection did fail to open")
 
-        let httpClient = TestHttpClient(postHandler: { _ in (HttpResponse(statusCode: 200, contents: "{}".data(using: .utf8)!), nil) })
+        let httpClient = TestHttpClient(postHandler: { _ in
+            (HttpResponse(statusCode: 200, contents: "{}".data(using: .utf8)!), nil)
+        })
         let httpConnectionOptions = HttpConnectionOptions()
         httpConnectionOptions.httpClientFactory = { options in httpClient }
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org")!, options: httpConnectionOptions, logger: PrintLogger())
+        let httpConnection = HttpConnection(
+            url: URL(string: "http://fakeuri.org")!, options: httpConnectionOptions, logger: PrintLogger())
         let connectionDelegate = TestConnectionDelegate()
         connectionDelegate.connectionDidFailToOpenHandler = { error in
-            XCTAssertEqual("\(SignalRError.invalidNegotiationResponse(message: "connectionId property not found or invalid"))", "\(error)")
+            XCTAssertEqual(
+                "\(SignalRError.invalidNegotiationResponse(message: "connectionId property not found or invalid"))",
+                "\(error)")
             didFailToOpenExpectation.fulfill()
         }
         httpConnection.delegate = connectionDelegate
@@ -441,7 +452,8 @@ class HttpConnectionTests: XCTestCase {
         let didFailToOpenExpectation = expectation(description: "connection did fail to open")
 
         let httpConnectionOptions = HttpConnectionOptions()
-        let httpConnection = HttpConnection(url: URL(string:"\(BASE_URL)")!, options: httpConnectionOptions, logger: PrintLogger())
+        let httpConnection = HttpConnection(
+            url: URL(string: "\(BASE_URL)")!, options: httpConnectionOptions, logger: PrintLogger())
         let httpClient = TestHttpClient(postHandler: { _ in
             DispatchQueue.global().async {
                 httpConnection.stop()
@@ -499,7 +511,9 @@ class HttpConnectionTests: XCTestCase {
         httpConnectionOptions.httpClientFactory = { _ in httpClient }
         let transport = FakeTransport()
 
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org")!, options: httpConnectionOptions, transportFactory: TestTransportFactory(transport), logger: PrintLogger())
+        let httpConnection = HttpConnection(
+            url: URL(string: "http://fakeuri.org")!, options: httpConnectionOptions,
+            transportFactory: TestTransportFactory(transport), logger: PrintLogger())
 
         transport.httpConnection = httpConnection
 
@@ -519,7 +533,8 @@ class HttpConnectionTests: XCTestCase {
         let didFailToOpenExpectation = expectation(description: "connection did fail to open")
 
         let httpConnectionOptions = HttpConnectionOptions()
-        let httpConnection = HttpConnection(url: ECHO_NOTRANSPORTS_URL, options: httpConnectionOptions, logger: PrintLogger())
+        let httpConnection = HttpConnection(
+            url: ECHO_NOTRANSPORTS_URL, options: httpConnectionOptions, logger: PrintLogger())
         let httpClient = TestHttpClient(postHandler: { _ in
             return (HttpResponse(statusCode: 200, contents: self.negotiatePayload.data(using: .utf8)!), nil)
         })
@@ -527,7 +542,7 @@ class HttpConnectionTests: XCTestCase {
 
         let connectionDelegate = TestConnectionDelegate()
         connectionDelegate.connectionDidFailToOpenHandler = { error in
-            XCTAssertTrue("\(error)".contains("Code=-1011"))
+            XCTAssertEqual("\(SignalRError.webError(statusCode: 404))", "\(error)")
             didFailToOpenExpectation.fulfill()
         }
         httpConnection.delegate = connectionDelegate
@@ -541,9 +556,11 @@ class HttpConnectionTests: XCTestCase {
         let didFailToOpenExpectation = expectation(description: "connection did fail to open")
 
         let httpConnectionOptions = HttpConnectionOptions()
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org/")!, options: httpConnectionOptions, logger: PrintLogger())
+        let httpConnection = HttpConnection(
+            url: URL(string: "http://fakeuri.org/")!, options: httpConnectionOptions, logger: PrintLogger())
         let httpClient = TestHttpClient(postHandler: { _ in
-            let negotiatePayload = "{\"connectionId\":\"6baUtSEmluCoKvmUIqLUJw\",\"connectionToken\": \"9AnFxsjXqnRuz4UBt2W8\",\"negotiateVersion\":1,\"availableTransports\":[]}"
+            let negotiatePayload =
+                "{\"connectionId\":\"6baUtSEmluCoKvmUIqLUJw\",\"connectionToken\": \"9AnFxsjXqnRuz4UBt2W8\",\"negotiateVersion\":1,\"availableTransports\":[]}"
             return (HttpResponse(statusCode: 200, contents: negotiatePayload.data(using: .utf8)!), nil)
         })
         httpConnectionOptions.httpClientFactory = { options in httpClient }
@@ -560,7 +577,8 @@ class HttpConnectionTests: XCTestCase {
         waitForExpectations(timeout: 5 /*seconds*/)
     }
 
-    private let negotiatePayload = "{\"connectionId\":\"6baUtSEmluCoKvmUIqLUJw\",\"connectionToken\": \"9AnFxsjXqnRuz4UBt2W8\",\"negotiateVersion\":1,\"availableTransports\":[{\"transport\":\"WebSockets\",\"transferFormats\":[\"Text\",\"Binary\"]},{\"transport\":\"ServerSentEvents\",\"transferFormats\":[\"Text\"]},{\"transport\":\"LongPolling\",\"transferFormats\":[\"Text\",\"Binary\"]}]}"
+    private let negotiatePayload =
+        "{\"connectionId\":\"6baUtSEmluCoKvmUIqLUJw\",\"connectionToken\": \"9AnFxsjXqnRuz4UBt2W8\",\"negotiateVersion\":1,\"availableTransports\":[{\"transport\":\"WebSockets\",\"transferFormats\":[\"Text\",\"Binary\"]},{\"transport\":\"ServerSentEvents\",\"transferFormats\":[\"Text\"]},{\"transport\":\"LongPolling\",\"transferFormats\":[\"Text\",\"Binary\"]}]}"
 
     private class TestTransportFactory: TransportFactory {
         let createTransport: () -> Transport
@@ -582,7 +600,7 @@ class HttpConnectionTests: XCTestCase {
 
         let httpConnectionOptions = HttpConnectionOptions()
         let httpClient = TestHttpClient(postHandler: { url in
-            if (url.absoluteString == initialUrl + "/negotiate?negotiateVersion=1") {
+            if url.absoluteString == initialUrl + "/negotiate?negotiateVersion=1" {
                 let negotiatePayload = "{\"accessToken\":\"xyz\",\"url\":\"https://service/?abcdef\"}"
                 return (HttpResponse(statusCode: 200, contents: negotiatePayload.data(using: .utf8)!), nil)
             }
@@ -619,7 +637,9 @@ class HttpConnectionTests: XCTestCase {
         let connectionOpenedExpectation = expectation(description: "connection opened")
         let httpConnectionOptions = HttpConnectionOptions()
         let transport = ConnectionIdTransport()
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org/")!, options: httpConnectionOptions, transportFactory: TestTransportFactory(transport), logger: PrintLogger())
+        let httpConnection = HttpConnection(
+            url: URL(string: "http://fakeuri.org/")!, options: httpConnectionOptions,
+            transportFactory: TestTransportFactory(transport), logger: PrintLogger())
         let httpClient = TestHttpClient(postHandler: { _ in
             return (HttpResponse(statusCode: 200, contents: self.negotiatePayload.data(using: .utf8)!), nil)
         })
@@ -643,23 +663,25 @@ class HttpConnectionTests: XCTestCase {
 
         let httpConnectionOptions = HttpConnectionOptions()
         let transport = TestTransport()
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org/")!, options: httpConnectionOptions, transportFactory: TestTransportFactory(transport), logger: PrintLogger())
+        let httpConnection = HttpConnection(
+            url: URL(string: "http://fakeuri.org/")!, options: httpConnectionOptions,
+            transportFactory: TestTransportFactory(transport), logger: PrintLogger())
         let httpClient = TestHttpClient(postHandler: { _ in
             return (HttpResponse(statusCode: 200, contents: self.negotiatePayload.data(using: .utf8)!), nil)
         })
         httpConnectionOptions.httpClientFactory = { options in httpClient }
-        
+
         let connectionDelegate = TestConnectionDelegate()
         connectionDelegate.connectionDidOpenHandler = { connection in
-            XCTAssertEqual("9AnFxsjXqnRuz4UBt2W8", connection.connectionId)
+            XCTAssertEqual("6baUtSEmluCoKvmUIqLUJw", connection.connectionId)
             connectionIdSetExpectation.fulfill()
-            httpConnection.stop();
+            httpConnection.stop()
         }
         connectionDelegate.connectionDidCloseHandler = { error in
             XCTAssertNil(httpConnection.connectionId)
             connectionIdClearedExpectation.fulfill()
         }
-        
+
         httpConnection.delegate = connectionDelegate
         httpConnection.start()
 
@@ -677,7 +699,9 @@ class HttpConnectionTests: XCTestCase {
 
         let httpConnectionOptions = HttpConnectionOptions()
         let transport = UnopenableTransport()
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org/")!, options: httpConnectionOptions, transportFactory: TestTransportFactory(transport), logger: PrintLogger())
+        let httpConnection = HttpConnection(
+            url: URL(string: "http://fakeuri.org/")!, options: httpConnectionOptions,
+            transportFactory: TestTransportFactory(transport), logger: PrintLogger())
         let httpClient = TestHttpClient(postHandler: { _ in
             return (HttpResponse(statusCode: 200, contents: self.negotiatePayload.data(using: .utf8)!), nil)
         })
@@ -712,7 +736,8 @@ class HttpConnectionTests: XCTestCase {
         })
 
         httpConnectionOptions.httpClientFactory = { options in httpClient }
-        let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org?testParam=42")!, options: httpConnectionOptions)
+        let httpConnection = HttpConnection(
+            url: URL(string: "http://fakeuri.org?testParam=42")!, options: httpConnectionOptions)
 
         let connectionDelegate = TestConnectionDelegate()
         connectionDelegate.connectionDidFailToOpenHandler = { _ in
@@ -731,7 +756,9 @@ class HttpConnectionTests: XCTestCase {
             let httpConnectionOptions = HttpConnectionOptions()
             let transport = TestTransport()
             transport.inherentKeepAlive = inherentKeepAlive
-            let httpConnection = HttpConnection(url: URL(string:"http://fakeuri.org/")!, options: httpConnectionOptions, transportFactory: TestTransportFactory(transport), logger: PrintLogger())
+            let httpConnection = HttpConnection(
+                url: URL(string: "http://fakeuri.org/")!, options: httpConnectionOptions,
+                transportFactory: TestTransportFactory(transport), logger: PrintLogger())
             let httpClient = TestHttpClient(postHandler: { _ in
                 return (HttpResponse(statusCode: 200, contents: self.negotiatePayload.data(using: .utf8)!), nil)
             })

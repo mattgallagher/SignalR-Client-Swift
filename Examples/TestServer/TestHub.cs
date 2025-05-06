@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Threading.Channels;
 using Microsoft.AspNetCore.SignalR;
@@ -150,6 +151,80 @@ namespace TestServer
             return true;
         }
 
+        public async Task InvokeWithArgs0VoidWithClientStream(IAsyncEnumerable<int> stream)
+        {
+            await InvokeWithManyArgsVoidWithClientStream(stream, [1]);
+        }
+
+        public async Task InvokeWithArgs1VoidWithClientStream(IAsyncEnumerable<int> stream, int arg1)
+        {
+            await InvokeWithManyArgsVoidWithClientStream(stream, [arg1]);
+        }
+
+        public async Task InvokeWithArgs2VoidWithClientStream(IAsyncEnumerable<int> stream, int arg1, int arg2)
+        {
+            await InvokeWithManyArgsVoidWithClientStream(stream, [arg1, arg2]);
+        }
+
+        public async Task InvokeWithArgs3VoidWithClientStream(IAsyncEnumerable<int> stream, int arg1, int arg2, int arg3)
+        {
+            await InvokeWithManyArgsVoidWithClientStream(stream, [arg1, arg2, arg3]);
+        }
+
+        public async Task InvokeWithArgs4VoidWithClientStream(IAsyncEnumerable<int> stream, int arg1, int arg2, int arg3, int arg4)
+        {
+            await InvokeWithManyArgsVoidWithClientStream(stream, [arg1, arg2, arg3, arg4]);
+        }
+
+        public async Task InvokeWithManyArgsVoidWithClientStream(IAsyncEnumerable<int> stream, int[] modifiers)
+        {
+            var result = 0;
+            var idx = 0;
+            await foreach (var value in stream)
+            {
+                result += value * modifiers[idx];
+                idx = (idx + 1) % modifiers.Length;
+            }
+            await Clients.All.SendAsync("ClientStreamResult", result);
+        }
+
+        public Task<int> InvokeWithArgs0WithClientStream(IAsyncEnumerable<int> stream)
+        {
+            return InvokeWithManyArgsWithClientStream(stream, [1]);
+        }
+
+        public Task<int> InvokeWithArgs1WithClientStream(IAsyncEnumerable<int> stream, int arg1)
+        {
+            return InvokeWithManyArgsWithClientStream(stream, [arg1]);
+        }
+
+        public Task<int> InvokeWithArgs2WithClientStream(IAsyncEnumerable<int> stream, int arg1, int arg2)
+        {
+            return InvokeWithManyArgsWithClientStream(stream, [arg1, arg2]);
+        }
+
+        public Task<int> InvokeWithArgs3WithClientStream(IAsyncEnumerable<int> stream, int arg1, int arg2, int arg3)
+        {
+            return InvokeWithManyArgsWithClientStream(stream, [arg1, arg2, arg3]);
+        }
+
+        public Task<int> InvokeWithArgs4WithClientStream(IAsyncEnumerable<int> stream, int arg1, int arg2, int arg3, int arg4)
+        {
+            return InvokeWithManyArgsWithClientStream(stream, [arg1, arg2, arg3, arg4]);
+        }
+
+        public async Task<int> InvokeWithManyArgsWithClientStream(IAsyncEnumerable<int> stream, int[] modifiers)
+        {
+            var result = 0;
+            var idx = 0;
+            await foreach (var value in stream)
+            {
+                result += value * modifiers[idx];
+                idx = (idx + 1) % modifiers.Length;
+            }
+            return result;
+        }
+
         public string Concatenate(string s, int n)
         {
             return $"{s} {n}";
@@ -211,6 +286,83 @@ namespace TestServer
                 channel.Writer.TryComplete();
             });
             return channel.Reader;
+        }
+
+        public ChannelReader<object> StreamManyArgs0WithClientStream(IAsyncEnumerable<int> stream)
+        {
+            return StreamWithManyArgsWithClientStream(stream, [1]);
+        }
+
+        public ChannelReader<object> StreamManyArgs1WithClientStream(IAsyncEnumerable<int> stream, int n1)
+        {
+            return StreamWithManyArgsWithClientStream(stream, [n1]);
+        }
+
+        public ChannelReader<object> StreamManyArgs2WithClientStream(IAsyncEnumerable<int> stream, int n1, int n2)
+        {
+            return StreamWithManyArgsWithClientStream(stream, [n1, n2]);
+        }
+
+        public ChannelReader<object> StreamManyArgs3WithClientStream(IAsyncEnumerable<int> stream, int n1, int n2, int n3)
+        {
+            return StreamWithManyArgsWithClientStream(stream, [n1, n2, n3]);
+        }
+
+        public ChannelReader<object> StreamManyArgs4WithClientStream(IAsyncEnumerable<int> stream, int n1, int n2, int n3, int n4)
+        {
+            return StreamWithManyArgsWithClientStream(stream, [n1, n2, n3, n4]);
+        }
+
+        private ChannelReader<object> StreamWithManyArgsWithClientStream(IAsyncEnumerable<int> stream, int[] modifiers)
+        {
+            var channel = Channel.CreateUnbounded<object>();
+            _ = Task.Run(async () =>
+            {
+                var idx = 0;
+                await foreach (var value in stream)
+                {
+                    await channel.Writer.WriteAsync(value * modifiers[idx]);
+                    idx = (idx + 1) % modifiers.Length;
+                }
+                channel.Writer.TryComplete();
+            });
+            return channel.Reader;
+        }
+
+        public enum SHAType
+        {
+            SHA1,
+            SHA256
+        }
+
+        public class MessageSHA
+        {
+            public byte[] Value { get; set; }
+            public SHAType SHAType { get; set; }
+        }
+
+        public async IAsyncEnumerable<MessageSHA> ComputeSHA(IAsyncEnumerable<byte[]> messageStream, SHAType shaType)
+        {
+            HashAlgorithm CreateAlgorithm(SHAType shaType)
+            {
+                switch (shaType)
+                {
+                    case SHAType.SHA1:
+                        return SHA1.Create();
+                    case SHAType.SHA256:
+                        return SHA256.Create();
+                    default:
+                        throw new ArgumentException($"Unrecognized SHA type {shaType}", nameof(shaType));
+                }
+            }
+
+            using (var hashAlgorithm = CreateAlgorithm(shaType))
+            {
+                await foreach (var message in messageStream)
+                {
+                    yield return new MessageSHA { Value = hashAlgorithm.ComputeHash(message), SHAType = shaType };
+                }
+            }
         }
     }
 }
